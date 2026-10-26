@@ -19,7 +19,19 @@ else    printf("%s\n" ,  mesaj) ;
 exit(2) ;
 
 }
-
+int NumNL(const char *filename) {
+    FILE *fp = fopen(filename, "r");
+    if (fp == NULL) {
+        return -1;
+    }
+    int count = 0;
+    int c;
+    while ((c = getc(fp)) != EOF) {
+        count += (c == '\n');
+    }
+    fclose(fp);
+    return count;
+}
 int main (int argc, char *argv[ ]) {
 
 int fd , i ,  l_read ; char *f  ; void *p_buf  ;
@@ -39,9 +51,10 @@ p_buf = (char *)malloc(i) ;
 l_read = read( fd , p_buf , i ) ;
 
 if( l_read == -1 || l_read < i )   eroare("eroare citire fisier") ;
-
+int nr=0;
+nr=NumNL(argv[1]);
 write(1 , p_buf , l_read) ;
-
+printf("Lungimea fisierului in octeti: %d\n Numarul de linii este: %d",i, nr );
 close(fd) ;
 
 }
